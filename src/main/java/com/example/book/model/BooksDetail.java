@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -36,7 +37,8 @@ public class BooksDetail {
 	@Column(name = "category_id")
 	private Long categoryId;
 
-	//private List<String> file;
+	@Transient
+	private List<FileInfo> files;
 
 	@CreatedDate
 	@Column(nullable = false, updatable = false)
@@ -110,10 +112,13 @@ public class BooksDetail {
 		this.updateDate = updateDate;
 	}
 
-	/*
-	 * public List<String> getFile() { return file; }
-	 * 
-	 * public void setFile(List<String> file) { this.file = file; }
-	 */
+	public List<FileInfo> getFiles() {
+		return files;
+	}
 
+	public void setFiles(List<FileInfo> files) {
+		this.files = files;
+	}
+
+	
 }

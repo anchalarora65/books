@@ -1,6 +1,7 @@
 package com.example.book.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,12 +26,15 @@ public class Category {
 	private String categoryName;
 
 	@CreatedDate
-	//@Column(nullable = false, updatable = false)
+	// @Column(nullable = false, updatable = false)
 	private Date insertDate;
 
 	@LastModifiedDate
-	//@Column(nullable = false)
+	// @Column(nullable = false)
 	private Date updateDate;
+
+	@Transient
+	private List<BooksDetail> books;
 
 	public Long getId() {
 		return id;
@@ -61,6 +66,14 @@ public class Category {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public List<BooksDetail> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<BooksDetail> books) {
+		this.books = books;
 	}
 
 }

@@ -26,10 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.example.book.model.BooksDetail;
+import com.example.book.model.Category;
 import com.example.book.model.FileInfo;
 import com.example.book.repository.BooksDetailRepository;
 import com.example.book.repository.FileInfoRepository;
 import com.example.book.response.ResponseMessage;
+import com.example.book.service.BookService;
 import com.example.book.service.FilesStorageService;
 
 @CrossOrigin("http://localhost:8080")
@@ -45,6 +47,9 @@ public class BooksDetailController {
 
 	@Autowired
 	FilesStorageService storageService;
+
+	@Autowired
+	BookService BookService;
 
 	@RequestMapping(value = "/books", method = RequestMethod.POST)
 	public ResponseEntity<?> createCategory(@RequestParam(name = "name") String name,
@@ -105,7 +110,64 @@ public class BooksDetailController {
 
 		} catch (Exception e) {
 
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Fail to upload files!");
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Exception");
+
+		}
+
+	}
+
+	@GetMapping(value = "/getCategories")
+	public ResponseEntity<?> getAllCategoryData() {
+
+		try {
+			List<Category> response = BookService.findAll();
+			if (response.size() > 0) {
+
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			} else {
+				return ResponseEntity.status(HttpStatus.OK).body("No Data Found");
+			}
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Exception");
+
+		}
+
+	}
+
+	@GetMapping(value = "/bookDetails/{bookId}")
+	public ResponseEntity<?> getBookDetailsById(@PathVariable Long bookId) {
+
+		try {
+			BooksDetail response = BookService.getBookDetailsById(bookId);
+			if (response != null) {
+
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			} else {
+				return ResponseEntity.status(HttpStatus.OK).body("No Data Found");
+			}
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Exception");
+
+		}
+
+	}
+
+	@GetMapping(value = "/categoryDetails/{categoryId}")
+	public ResponseEntity<?> getCategoryDetailsById(@PathVariable Long categoryId) {
+
+		try {
+			Category response = BookService.getCategoryDetailsById(categoryId);
+			if (response != null) {
+
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			} else {
+				return ResponseEntity.status(HttpStatus.OK).body("No Data Found");
+			}
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Exception");
 
 		}
 
